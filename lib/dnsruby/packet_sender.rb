@@ -183,11 +183,7 @@ module Dnsruby
       @src_port = [0]
       @recurse = true
 
-      if (arg==nil)
-        #  Get default config
-        config = Config.new
-        #         @server = config.nameserver[0]
-      elsif (arg.kind_of? String)
+      if (arg.kind_of? String)
         @server=arg
       elsif (arg.kind_of? Name)
         @server=arg
