@@ -257,7 +257,7 @@ module Dnsruby
               }
             }
             (hints.length * 2).times {
-              id, result, error = q.pop
+              _id, result, _error = q.pop
               if (result)
                 result.answer.each {|rr|
                   TheLog.debug(";; NS address: " + rr.inspect+"\n")
@@ -621,7 +621,7 @@ module Dnsruby
         packet = resolver.send_message(query)
         #  @TODO@ Now prune unrelated RRSets (RFC 5452 section 6)
         prune_rrsets_to_rfc5452(packet, known_zone)
-      rescue ResolvTimeout, IOError => e
+      rescue ResolvTimeout, IOError => _e
         #             TheLog.debug(";; nameserver #{levelns.to_s} didn't respond")
         #             next
         TheLog.debug("No response!")
