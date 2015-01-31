@@ -120,9 +120,6 @@ module Dnsruby
     #  The current Config
     attr_reader :config
 
-    #  Does this Resolver cache answers, and attempt to retrieve answer from the cache?
-    attr_reader :do_caching
-
     #  The array of SingleResolvers used for sending query messages
     #     attr_accessor :single_resolvers # :nodoc:
     def single_resolvers=(s) # :nodoc:
@@ -166,7 +163,7 @@ module Dnsruby
     #  Defines whether we will cache responses, or pass every request to the
     #  upstream resolver.  This is only really useful when querying authoritative
     #  servers (as the upstream recursive resolver is likely to cache)
-    attr_accessor :do_caching
+    attr_reader :do_caching
 
     #  --
     #  @TODO@ add load_balance? i.e. Target nameservers in a random, rather than pre-determined, order?
@@ -763,6 +760,7 @@ module Dnsruby
       update
     end
 
+    #  Does this Resolver cache answers, and attempt to retrieve answers from the cache?
     def do_caching=(on)
       @do_caching=on
       update
