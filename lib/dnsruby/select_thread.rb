@@ -124,7 +124,7 @@ module Dnsruby
       }
       begin
         @@wakeup_sockets[0].send("wakeup!", 0)
-      rescue Exception => e
+      rescue Exception => _e
         #          do nothing
       end
     end
@@ -181,11 +181,11 @@ module Dnsruby
         end
         #         next if (timeout < 0)
         begin
-          ready, write, errors = IO.select(sockets, nil, nil, timeout)
+          ready, _write, _errors = IO.select(sockets, nil, nil, timeout)
         rescue SelectWakeup
           #  If SelectWakeup, then just restart this loop - the select call will be made with the new data
           next
-        rescue IOError => e# Don't worry if the socket was closed already
+        rescue IOError => _e# Don't worry if the socket was closed already
           #           print "IO Error  =: #{e}\n"
           next
         end
@@ -642,7 +642,7 @@ module Dnsruby
       }
 
       responses.each do |item|
-        client_id, client_queue, msg, err, query, res = item
+        client_id, client_queue, msg, err, _query, _res = item
         #         push_to_client(client_id, client_queue, msg, err)
         client_queue.push([client_id, Resolver::EventType::VALIDATED, msg, err])
         notify_queue_observers(client_queue, client_id)
@@ -662,7 +662,7 @@ module Dnsruby
         #  This method now needs to push the response to the validator,
         #  which will then take responsibility for delivering it to the client.
         #  The validator will need access to the queue observers -
-        validator = ValidatorThread.new(client_id, client_queue, msg, err, query ,self, res)
+        validator = ValidatorThread.new(client_id, client_queue, msg, err, query, self, res)
         validator.run
         #       @@validator.add_to_queue([client_id, client_queue, msg, err, query, self, res])
       end
